@@ -12,6 +12,7 @@
 	- коды ответов.
 */
 
+ini_set('date.timezone', 'Europe/Moscow');
 require_once('classes/LogParser.php');
 
 $fileName = 'logs\access.log';
@@ -21,4 +22,6 @@ $text = $logParser->readTheFile($fileName);
 $result = $logParser->parseText($text);
 print_r($result);
 
-isset($result) ? file_put_contents('result.json', $result) : print_r('ERROR!');
+empty($result) ? 
+	file_put_contents('logs/error.log', date('Y-m-d H:m:s') . " - - parse error - - \n", FILE_APPEND) :
+	file_put_contents('result.json', $result);

@@ -2,14 +2,13 @@
 
 class LogParser {
 
-	function __construct()
-	{
-		print 'Construct ' . __CLASS__ ;
+	function __construct() {
+		echo 'Construct ' . __CLASS__ ;
 	}
 
 	function __destruct() {
-       print '<br>Destruct ' . __CLASS__ ;
-   }
+       echo '<br>Destruct ' . __CLASS__ ;
+   	}
 
 	/**
 	* Чтение текста из файла логов
@@ -29,11 +28,12 @@ class LogParser {
 			fclose($file);
 			echo '<br>============================';
 			echo '<br> file is exist';
-			echo '<br>============================';
+			echo '<br>============================<br>';
 		} else {
 			echo '<br>============================';
 			echo '<br> ERROR: file is not exist!!!';
-			echo '<br>============================';
+			echo '<br>============================<br>';
+			file_put_contents('logs/error.log', print_r(date("Y-m-d H:m:s") . " - - read file error - - \n", 1), FILE_APPEND);
 			die();
 		}
 		return $result;
@@ -42,7 +42,7 @@ class LogParser {
 	/**
 	 * Парсинг логов
 	 * @param array $text
-	 * @return array $result
+	 * @return JSON $result
 	 */
 	public function parseText($text) {
 		$urls = [];
@@ -73,7 +73,7 @@ class LogParser {
 		$result['views'] = count($urls);
 		$result['urls'] = count(array_unique($urls));
 
-		return json_encode($result);
+		return ($result['views'] == null) ? null : json_encode($result);
 	}
 
 	/**
@@ -81,7 +81,7 @@ class LogParser {
 	 * @param array $codes
 	 * @return array $result
 	 */
-	public function parseCodes($codes) {
+	private function parseCodes($codes) {
 		$result = [];
 		foreach ($codes as $code) {
 			array_key_exists($code, $result) ? $result[$code]++ : $result[$code] = 1;
@@ -94,7 +94,7 @@ class LogParser {
 	 * @param array $data
 	 * @return array $result
 	 */
-	public function getCrawlers($data) {
+	private function getCrawlers($data) {
 		$result = [
 			'Google' 	=> 	null, 
 			'Yandex' 	=> 	null, 
