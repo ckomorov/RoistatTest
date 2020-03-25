@@ -3,11 +3,11 @@
 class LogParser {
 
 	function __construct() {
-		echo 'Construct ' . __CLASS__ ;
+		
 	}
 
 	function __destruct() {
-       echo '<br>Destruct ' . __CLASS__ ;
+       
    	}
 
 	/**
@@ -26,9 +26,6 @@ class LogParser {
 				$result[] = trim(fgets($file));
 			}
 			fclose($file);
-			echo '<br>============================';
-			echo '<br> file is exist';
-			echo '<br>============================<br>';
 		} else {
 			echo '<br>============================';
 			echo '<br> ERROR: file is not exist!!!';
@@ -48,11 +45,11 @@ class LogParser {
 		$urls = [];
 		$codes = [];
 		$crawlers = [];
-		$traffic = null;
+		$traffic = 0;
 		$result = [
-			'views' => null,
-			'urls' => null,
-			'traffic' => null,
+			'views' => 0,
+			'urls' => 0,
+			'traffic' => 0,
 			'crawlers' => [],
 			'statusCodes' => []
 		];
@@ -65,7 +62,7 @@ class LogParser {
 			$crawlers[] = $params[2];
 			$codeAndTraffic = explode(" ", $params[1]);
 			$codes[] = $codeAndTraffic[0];
-			$traffic += $codeAndTraffic[1];
+			$codeAndTraffic[0] == 200 ? $traffic += $codeAndTraffic[1] : '';	
 		}
 		$result['crawlers'] = $this->getCrawlers($crawlers);
 		$result['statusCodes'] = $this->parseCodes($codes);
@@ -73,7 +70,7 @@ class LogParser {
 		$result['views'] = count($urls);
 		$result['urls'] = count(array_unique($urls));
 
-		return ($result['views'] == null) ? null : json_encode($result);
+		return ($result['views'] == 0) ? 0 : json_encode($result, JSON_PRETTY_PRINT);
 	}
 
 	/**
@@ -96,10 +93,10 @@ class LogParser {
 	 */
 	private function getCrawlers($data) {
 		$result = [
-			'Google' 	=> 	null, 
-			'Yandex' 	=> 	null, 
-			'Bing' 		=> 	null, 
-			'Baidu' 	=> 	null
+			'Google' 	=> 	0, 
+			'Yandex' 	=> 	0, 
+			'Bing' 		=> 	0, 
+			'Baidu' 	=> 	0
 		];
 
 		foreach ($result as $crawler => $count) {

@@ -1,1 +1,15 @@
-{"views":16,"urls":4,"traffic":212816,"crawlers":{"Google":2,"Yandex":null,"Bing":null,"Baidu":null},"statusCodes":{"200":14,"301":2}}
+{
+    "views": 16,
+    "urls": 4,
+    "traffic": 187990,
+    "crawlers": {
+        "Google": 2,
+        "Yandex": 0,
+        "Bing": 0,
+        "Baidu": 0
+    },
+    "statusCodes": {
+        "200": 14,
+        "301": 2
+    }
+}

@@ -20,8 +20,13 @@ $logParser = new LogParser();
 
 $text = $logParser->readTheFile($fileName);
 $result = $logParser->parseText($text);
-print_r($result);
 
 empty($result) ? 
 	file_put_contents('logs/error.log', date('Y-m-d H:m:s') . " - - parse error - - \n", FILE_APPEND) :
 	file_put_contents('result.json', $result);
+
+if (file_exists('result.json')) {
+	print_r(file_get_contents('result.json'));
+} else {
+	print_r('error! file is not exist');
+}
