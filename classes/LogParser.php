@@ -57,19 +57,21 @@ class LogParser {
 		foreach ($text as $str) {
 			$tmp = [];
 			$tmp = explode(' - - ', $str);
-			$urls[] = $tmp[0];
 			$params = explode("\" ", $tmp[1]);
+			$url = explode("\"", $params[0]);
+			$url = explode(' ', $url[1]);
+			$urls[] = $url[1];
 			$crawlers[] = $params[2];
 			$codeAndTraffic = explode(" ", $params[1]);
 			$codes[] = $codeAndTraffic[0];
-			$codeAndTraffic[0] == 200 ? $traffic += $codeAndTraffic[1] : '';	
+			$codeAndTraffic[0] == 200 ? $traffic += $codeAndTraffic[1] : '';
 		}
 		$result['crawlers'] = $this->getCrawlers($crawlers);
 		$result['statusCodes'] = $this->parseCodes($codes);
 		$result['traffic'] = $traffic;
 		$result['views'] = count($urls);
 		$result['urls'] = count(array_unique($urls));
-
+		
 		return ($result['views'] == 0) ? 0 : json_encode($result, JSON_PRETTY_PRINT);
 	}
 
